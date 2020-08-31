@@ -1,24 +1,29 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classname';
+import { Link } from 'react-router-dom';
 import { actionHandleSideBar, actionHandleMenu } from '../../../configs/redux/action';
+import { ReactComponent as Logo } from '../../../assets/PraTelaLogo.svg';
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const isMenuOpen = useSelector((states) => states.isMenuOpen);
 
   const handleSideBar = () => {
-    console.log('handleSideBar Clicked');
-    dispatch(actionHandleSideBar());
+    // console.log('handleSideBar Clicked');
+    dispatch(actionHandleSideBar(true));
   };
 
   const handleMenu = () => {
-    console.log('handleMenu Clicked');
-    dispatch(actionHandleMenu());
+    // console.log('handleMenu Clicked');
+    if (isMenuOpen) {
+      return dispatch(actionHandleMenu(false));
+    }
+    return dispatch(actionHandleMenu(true));
   };
 
   return (
-    <nav className="absolute w-full flex item-center justify-between px-4 sm:px-5 md:px-6 lg:px-8 py-6 h-16 bg-white text-gray-700 border-b border-gray-300 z-10 shadow-sm">
+    <nav className="fixed w-full flex item-center justify-between px-4 sm:px-5 md:px-6 lg:px-8 py-6 h-16 bg-gray-100 text-gray-700 border-b border-gray-300 z-10 shadow-lg">
       <div className="w-full flex items-center">
         <button
           className="mx-2 md:hidden focus:outline-none"
@@ -29,11 +34,7 @@ const NavBar = () => {
           <i className="material-icons text-4xl">menu_open</i>
         </button>
         <div className="w-full flex items-center md:block justify-center">
-          <img
-            src="https://miskintheatre.co.uk/wp-content/uploads/2018/05/miskin-logo-k-100px-square-300x300.png"
-            alt="Logo"
-            className="h-12 w-auto"
-          />
+          <Logo className="h-12 w-auto md:hidden" />
         </div>
         <div className="flex md:justify-between md:bg-transparent">
           <button
@@ -46,25 +47,26 @@ const NavBar = () => {
           </button>
           <div
             className={cx(
-              'absolute md:static border border-gray-300 md:border-none rounded-lg md:flex md:justify-between bg-white md:bg-transparent',
-              isMenuOpen ? 'block shadow-lg' : 'hidden',
+              'absolute md:static md:border-none rounded-lg md:flex md:justify-between bg-white md:bg-transparent overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
+              isMenuOpen ? 'block shadow-xl h-32' : 'h-0 md:h-auto',
             )}
             style={{ right: '1rem', top: '65px' }}
           >
             <button
               type="button"
-              className="flex items-center p-3 font-medium m-2 text-center bg-gray-300 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+              className="flex relative items-center p-3 font-medium m-2 text-center bg-gray-300 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
             >
               <i className="material-icons">notifications_none</i>
-              <span className="md:hidden mr-2"> Notification</span>
+              <span className="md:hidden ml-1 mr-2"> Notifikasi</span>
             </button>
-            <button
-              type="button"
+            <Link
+              to="/home"
+              target="blank"
               className="flex items-center p-3 font-medium m-2 text-center bg-gray-300 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
             >
-              <i className="material-icons">person_outline</i>
-              <span className="md:hidden mr-2"> Profile</span>
-            </button>
+              <i className="material-icons">home</i>
+              <span className="md:hidden ml-1 mr-2">Hompage</span>
+            </Link>
           </div>
         </div>
       </div>

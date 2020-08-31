@@ -2,58 +2,57 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classname';
 import { Link } from 'react-router-dom';
-import {
-  actionHandleMenu,
-} from '../../../configs/redux/action';
+import { HashLink } from 'react-router-hash-link';
+import { actionHandleMenu } from '../../../configs/redux/action';
+import { ReactComponent as Logo } from '../../../assets/PraTelaLogo.svg';
 
 const NavBarClient = () => {
   const dispatch = useDispatch();
   const isMenuOpen = useSelector((states) => states.isMenuOpen);
 
   const handleMenu = () => {
-    console.log('handleMenu Clicked');
-    dispatch(actionHandleMenu());
+    // console.log('handleMenu Clicked');
+    if (isMenuOpen) {
+      return dispatch(actionHandleMenu(false));
+    }
+    return dispatch(actionHandleMenu(true));
+  };
+
+  const handleCloseMenu = () => {
+    // console.log('handleSideBar Clicked');
+    dispatch(actionHandleMenu(false));
   };
 
   return (
     <header
       className={cx(
-        'absolute w-full flex items-center justify-between flex-wrap py-2 px-6 sm:px-16 md:px-24 lg:px-32 xl:px-40 z-10',
+        'w-full flex items-center h-auto text-gray-700 justify-between flex-wrap py-2 px-6 sm:px-16 md:px-24 lg:px-32 xl:px-40 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
         isMenuOpen
-          ? 'bg-teal-400 text-gray-200'
-          : 'bg-transparent text-gray-700',
+          ? 'fixed bg-white text-gray-200 shadow-lg'
+          : 'absolute bg-transparent',
       )}
     >
-      {/* <button
-        className="mx-2 md:hidden focus:outline-none"
-        aria-label="Open Menu"
-        type="button"
-        onClick={handleMenu}
-      >
-        <i className="material-icons">arrow_back</i>
-      </button> */}
+
       <div className="flex items-center justify-center flex-shrink-0">
         <Link
           to="/home"
           className="flex items-center transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110"
         >
-          <img
-            src="https://miskintheatre.co.uk/wp-content/uploads/2018/05/miskin-logo-k-100px-square-300x300.png"
-            alt="Logo"
-            className="h-12 w-auto mr-3"
-          />
-          <span className="hidden md:block font-semibold text-xl tracking-tight ">
-            Pra Sejahtera
-          </span>
+          <Logo className="h-12 md:h-16 w-auto" />
         </Link>
       </div>
+
       <button
         className="md:hidden mx-2 focus:outline-none"
         aria-label="Open Menu"
         type="button"
         onClick={handleMenu}
       >
-        <i className="material-icons text-4xl">menu_open</i>
+        {!isMenuOpen ? (
+          <i className="material-icons text-4xl">menu_open</i>
+        ) : (
+          <i className="material-icons text-4xl">close</i>
+        )}
       </button>
 
       <div
@@ -63,21 +62,40 @@ const NavBarClient = () => {
         )}
       >
         <div className="text-sm items-center md:flex md:justify-end md:flex-grow">
-          <a
-            href="#responsive-header"
-            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-teal-500 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
+          <HashLink
+            to="/home/#home"
+            onClick={handleCloseMenu}
+            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-gray-400 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
           >
-            Docs
-          </a>
-          <a
-            href="#responsive-header"
-            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-teal-500 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
+            Home
+          </HashLink>
+          <HashLink
+            to="/home/#service"
+            onClick={handleCloseMenu}
+            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-gray-400 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
           >
-            Examples
-          </a>
+            Layanan
+          </HashLink>
+
+          <HashLink
+            to="/home/#timeline"
+            onClick={handleCloseMenu}
+            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-gray-400 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
+          >
+            Panduan
+          </HashLink>
+
+          <HashLink
+            to="/home/#contact"
+            onClick={handleCloseMenu}
+            className="block pt-3 pb-1 md:p-0 md:mt-0 hover:text-teal-800 mr-6 text-lg font-semibold border-b border-gray-400 md:border-none transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
+          >
+            Kontak
+          </HashLink>
           <Link
             to="/login"
-            className="flex items-center md:bg-teal-500 md:px-4 py-1 rounded-full text-gray-200 text-lg mt-4 md:mt-0 hover:text-white hover:bg-teal-400 transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
+            onClick={handleCloseMenu}
+            className="flex items-center font-semibold md:font-normal md:bg-teal-500 md:px-4 py-1 rounded-full text-gray-700 md:text-gray-200 text-lg mt-4 md:mt-0 hover:text-white hover:bg-teal-400 transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 "
           >
             <i className="material-icons">login</i>
             <span className="ml-2">Login</span>

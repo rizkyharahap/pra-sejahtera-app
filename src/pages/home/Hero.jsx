@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import bannerIlustration from '../../assets/images/happyNeighbour.png';
 
 const Hero = () => (
-  <section className="min-h-screen flex flex-wrap-reverse" id="hero">
-    <div className="w-full flex flex-col -mt-20 sm:justify-center items-center sm:items-start px-6 sm:w-1/2 sm:pt-24 sm:pl-16 md:pl-24 lg:pl-32 xl:pl-40">
+  <section className="min-h-screen flex flex-wrap-reverse" id="home">
+    <div className="w-full flex flex-col -mt-10 sm:justify-center items-center sm:items-start px-6 sm:w-1/2 sm:pt-24 sm:pl-16 md:pl-24 lg:pl-32 xl:pl-40">
       <header className="w-72 sm:w-84">
         <span className="uppercase font-medium text-gray-700">
           Untuk keluarga
@@ -22,15 +22,12 @@ const Hero = () => (
 
       <article className="mt-4 sm:mt-6">
         <p className="text-center sm:text-left text-gray-600 text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-          eveniet ratione consequatur, id quod vel eius est minus aliquid,
-          officia modi amet, qui quis natus inventore obcaecati soluta quaerat
-          nam.
+          Website agar masyarakat membantu keluarga Pra-Sejahtera untuk mendapatkan haknya dengan tepat sasaran dengan cara Mengajukan, Melaporkan, dan Donasi.
         </p>
       </article>
 
       <Link
-        to="request/self"
+        to="/request/self"
         className="max-w-xs rounded-full px-16 py-4 bg-teal-600 text-xl text-white font-semibold shadow-lg mt-6 mx-auto sm:mx-0 hover:bg-teal-400 transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 focus:outline-none"
       >
         Ajukan

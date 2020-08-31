@@ -29,12 +29,13 @@ const Admin = () => {
   return (
     <div className="flex min-h-screen">
       <SideBar />
-      <div className="w-full relative">
-        <NavBar />
-        <main className="px-4 sm:px-5 md:px-6 lg:px-8 py-20 bg-gray-200 min-h-screen pt-20">
-          {getRoutes}
-        </main>
-      </div>
+      <NavBar />
+      <main
+        className="w-full md:ml-64 text-gray-700 px-4 sm:px-5 md:px-6 lg:px-8 py-32 bg-gray-200"
+        style={{ minHeight: '94vh' }}
+      >
+        {getRoutes}
+      </main>
     </div>
   );
 };

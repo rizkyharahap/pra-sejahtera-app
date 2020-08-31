@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Outlet } from 'react-router';
 import { Switch, Route, Redirect } from 'react-router';
 import NavBarClient from './navbar/NavBarClient';
 import Footer from './footer/Footer';

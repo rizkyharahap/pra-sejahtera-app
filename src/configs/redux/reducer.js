@@ -3,8 +3,9 @@ const initialState = {
   isButtonLoading: false,
   isSideBarOpen: false,
   isMenuOpen: false,
-  families: {},
-  submissions: {},
+  families: [],
+  submissions: [],
+  requestMessage: [],
   isImage: false,
   fileUrl: '',
   progress: 0,
@@ -25,12 +26,12 @@ const reducer = (state = initialState, action) => {
     case 'CHANGE_SIDEBAR':
       return {
         ...state,
-        isSideBarOpen: !state.isSideBarOpen,
+        isSideBarOpen: action.value,
       };
     case 'CHANGE_MENU':
       return {
         ...state,
-        isMenuOpen: !state.isMenuOpen,
+        isMenuOpen: action.value,
       };
     case 'SET_FAMILIES':
       return {
@@ -41,6 +42,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         submissions: action.value,
+      };
+    case 'SET_REQUEST_MESSAGE':
+      return {
+        ...state,
+        requestMessage: action.value,
       };
     case 'SET_FILEURL':
       return {

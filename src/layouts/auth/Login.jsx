@@ -48,27 +48,39 @@ const Login = () => {
             <span className="font-semibold text-gray-700">Loading...</span>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center pb-6 ">
-          <span className="text-xl font-bold text-gray-800 mb-2">
+
+        <div className="flex flex-col items-center justify-center">
+          <span className="text-2xl font-semibold text-gray-800 mb-4">
             Login Admin
           </span>
-          <i className="material-icons text-6xl text-teal-500">person_pin</i>
+
+          <i className="material-icons text-7xl text-teal-500 mb-4">
+            person_pin
+          </i>
         </div>
+
         <div className="mb-6">
-          <label
-            className="block text-gray-500 font-semibold mb-1 pr-4"
-            htmlFor="inline-full-name"
-          >
-            E-mail
+          <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
+            {errors.email ? (
+              <span className="italic text-red-500">
+                E-mail tidak boleh kosong
+              </span>
+            ) : (
+              <span>E-mail </span>
+            )}
           </label>
+
           <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
             id="email"
             name="email"
             type="text"
             defaultValue=""
             placeholder="happywithhap@gmail.com"
             ref={register({ required: true })}
+            className={cx(
+              'bg-gray-300 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.pendapatan ? 'border-red-500' : null,
+            )}
           />
           {errors.email && (
             <p className="text-red-500 text-xs italic">
@@ -76,21 +88,29 @@ const Login = () => {
             </p>
           )}
         </div>
+
         <div className="mb-6">
-          <label
-            className="block text-gray-500 font-semibold mb-1 pr-4"
-            htmlFor="inline-password"
-          >
-            Password
+          <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
+            {errors.email ? (
+              <span className="italic text-red-500">
+                E-mail tidak boleh kosong
+              </span>
+            ) : (
+              <span>E-mail </span>
+            )}
           </label>
+
           <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
             id="password"
             type="password"
             name="password"
             placeholder="**************"
             defaultValue=""
             ref={register({ required: true })}
+            className={cx(
+              'bg-gray-300 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.pendapatan ? 'border-red-500' : null,
+            )}
           />
           {errors.password && (
             <p className="text-red-500 text-xs italic">
@@ -106,20 +126,17 @@ const Login = () => {
             Sign In
           </button>
         </div>
-        <span className="text-xs text-gray-700 font-semibold">
+        <span className="text-xs text-gray-700">
           Belum punya akun?
           {' '}
           <a
             href="https://api.whatsapp.com/send?phone=+6282133882546&text=Hallo ! Saya ingin mencoba aplikasi anda."
-            className="text-red-500 hover:text-red-700 hover:font-bold"
+            className="text-red-500 hover:text-red-700 hover:font-semibold"
           >
             register di sini
           </a>
         </span>
       </form>
-      <p className="text-center text-gray-600 text-xs">
-        &copy;2020 Acme Corp. All rights reserved.
-      </p>
     </div>
   );
 };

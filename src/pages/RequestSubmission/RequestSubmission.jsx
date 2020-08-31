@@ -17,7 +17,7 @@ function RequestSubmission() {
   const history = useHistory();
 
   const buttonLoadings = useSelector(
-    (buttonLoading) => buttonLoading.buttonLoading,
+    (buttonLoading) => buttonLoading.isButtonLoading,
   );
   const { register, handleSubmit, errors } = useForm();
 
@@ -84,11 +84,9 @@ function RequestSubmission() {
     }
   }, []);
 
-  const onRequestSubmit = async (data) => {
-    dispatch({ type: 'CHANGE_BUTTON_LOADING', value: true });
-
-    await dispatch(addRequestSubmission(data))
-      .catch((err) => alert(err));
+  const onRequestSubmit = (data, e) => {
+    dispatch(addRequestSubmission('request_message', data));
+    e.target.reset();
   };
 
   return (
@@ -98,17 +96,6 @@ function RequestSubmission() {
         className="w-full max-w-5xl mb-4 py-8 px-4 sm:px-16 md:px-24 relative"
         onSubmit={handleSubmit(onRequestSubmit)}
       >
-        <div
-          className={cx(
-            'w-full h-full absolute z-50 flex items-center justify-center bg-white bg-opacity-75 top-0 right-0',
-            !buttonLoadings ? 'hidden' : 'block',
-          )}
-        >
-          <div>
-            <Logo className="w-20 h-20" />
-            <span className="font-semibold text-gray-700">Loading...</span>
-          </div>
-        </div>
         <div className="text-xl font-bold text-gray-800 mb-10">
           <h3 className="text-2xl">Permintaan Pengajuan</h3>
         </div>
@@ -116,7 +103,7 @@ function RequestSubmission() {
           <div className="mb-4">
             <label
               htmlFor="jenisPengajuan"
-              className="block text-gray-500 mb-1"
+              className="block text-gray-600 mb-1 text-sm"
             >
               Jenis Pengajuan
             </label>
@@ -125,101 +112,120 @@ function RequestSubmission() {
               type="select"
               name="jenisPengajuan"
               ref={register({ required: true })}
-              className="block w-56 bg-gray-200 border border-gray-400 rounded py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-yellow-500"
+              className={cx(
+                'bg-gray-100 border border-gray-400 rounded py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                errors.jenisPengajuan ? 'border-red-500' : null,
+              )}
             >
               <option value="Pengajuan">Pengajuan</option>
               <option value="Pencopotan">Pencotopan</option>
               <option value="Donasi">Donasi</option>
             </select>
-            {errors.jenisPengajuan && (
-              <p className="text-red-500 text-xs italic">
-                {errors.jenisPengajuan && 'Jenis Pengajuan tidak boleh kosong'}
-              </p>
-            )}
           </div>
+
           <div className="mb-4">
-            <label
-              className="block text-gray-500 font-semibold mb-1 pr-4"
-              htmlFor="inline-full-name"
-            >
-              Nomor Kartu Keluarga
+            <label htmlFor="noKK" className="block text-gray-600 mb-1 text-sm">
+              {errors.noKK ? (
+                <span className="text-red-500 text-sm italic">
+                  {errors.noKK.type === 'required'
+                    ? 'Nomor Kartu Keluarga tidak boleh kosong'
+                    : 'Nomor Kartu Keluarga Maksimal 20 Karakter'}
+                </span>
+              ) : (
+                <span>Nomor Kartu Keluarga</span>
+              )}
             </label>
+
             <input
-              className="bg-gray-200 appearance-none border border-gray-400 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
               id="noKK"
               name="noKK"
               type="text"
               placeholder="exc.301400000000000"
               ref={register({ required: true })}
+              className={cx(
+                'bg-gray-100 border border-gray-400 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                errors.noKK ? 'border-red-500' : null,
+              )}
             />
-            {errors.noKK && (
-              <p className="text-red-500 text-xs italic">
-                {errors.noKK && 'No KK tidak boleh kosong'}
-              </p>
-            )}
           </div>
+
           <div className="mb-4">
-            <label
-              className="block text-gray-500 font-semibold mb-1 pr-4"
-              htmlFor="inline-password"
-            >
-              Nama
+            <label htmlFor="nama" className="block text-gray-600 mb-1 text-sm">
+              {errors.nama ? (
+                <span className="text-red-500 text-sm italic">
+                  Nama tidak boleh kosong
+                </span>
+              ) : (
+                <span>Nama</span>
+              )}
             </label>
+
             <input
-              className="bg-gray-200 appearance-none border border-gray-400 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
               id="nama"
               type="text"
               name="nama"
               placeholder="Rizki Harahap"
               ref={register({ required: true })}
+              className={cx(
+                'bg-gray-100 border border-gray-400 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                errors.nama ? 'border-red-500' : null,
+              )}
             />
-            {errors.nama && (
-              <p className="text-red-500 text-xs italic">
-                {errors.nama && 'Nama tidak boleh kosong'}
-              </p>
-            )}
           </div>
+
           <div className="mb-4">
             <label
-              className="block text-gray-500 font-semibold mb-1 pr-4"
-              htmlFor="inline-password"
+              htmlFor="noTelepon"
+              className="block text-gray-600 mb-1 text-sm"
             >
-              No Telepon / WhatsApp
+              {errors.noTelepon ? (
+                <span className="text-red-500 text-sm italic">
+                  Nomor Telepon tidak boleh kosong
+                </span>
+              ) : (
+                <span>Nomor Telepon</span>
+              )}
             </label>
+
             <input
-              className="bg-gray-200 appearance-none border border-gray-400 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
               id="noTelepon"
               type="text"
               name="noTelepon"
               placeholder="082133882544"
               ref={register({ required: true })}
+              className={cx(
+                'bg-gray-100 border border-gray-400 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                errors.noTelepon ? 'border-red-500' : null,
+              )}
             />
-            {errors.noTelepon && (
-              <p className="text-red-500 text-xs italic">
-                {errors.noTelepon && 'No Telepon tidak boleh kosong'}
-              </p>
-            )}
           </div>
-          <div className="mb-4">
+
+          <div className="mb-8">
             <label
-              htmlFor="jenisPengajuan"
-              className="block text-gray-500 mb-1"
+              htmlFor="alamatLengkap"
+              className="block text-gray-600 mb-1 text-sm"
             >
-              Alamat
+              {errors.alamatLengkap ? (
+                <span className="text-red-500 text-sm italic">
+                  Alamat Lengkap tidak boleh kosong
+                </span>
+              ) : (
+                <span>Alamat Lengkap</span>
+              )}
             </label>
+
             <input
-              className=" mb-4 bg-gray-200 appearance-none border border-gray-400 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
               id="alamatLengkap"
               name="alamatLengkap"
               type="text"
               placeholder="Alamat lengkap......."
               ref={register({ required: true })}
+              className={cx(
+                'mb-3 bg-gray-100 border border-gray-400 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                errors.noTelepon ? 'border-red-500' : null,
+              )}
             />
-            {errors.alamatLengkap && (
-              <p className="text-red-500 text-xs italic">
-                {errors.alamatLengkap && 'Alamat tidak boleh kosong'}
-              </p>
-            )}
+
             <div className="flex flex-wrap">
               <select
                 id="province"
@@ -227,79 +233,95 @@ function RequestSubmission() {
                 name="province"
                 ref={register({ required: true })}
                 onChange={onSetDistrict}
-                className="block w-56 mr-4 mb-4 bg-gray-200 border border-gray-400 rounded py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-yellow-500"
-              >
-                {province.length === 0 ? (
-                  <option>Provinsi</option>
-                ) : (
-                  province.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.nama}
-                    </option>
-                  ))
+                placeholder="Provinsi"
+                className={cx(
+                  'flex-1 mr-4 mb-4 bg-gray-100 border border-gray-400 rounded py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                  errors.province ? 'border-red-500' : null,
                 )}
+              >
+                <option value="" disabled selected>
+                  Provinsi
+                </option>
+                {province.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.nama}
+                  </option>
+                ))}
               </select>
-              {errors.province && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.province && 'Provinsi tidak boleh kosong'}
-                </p>
-              )}
+
               <select
                 id="district"
                 type="select"
                 name="district"
                 ref={register({ required: true })}
                 onChange={onSetSubDistrict}
-                className="block w-56  mr-4 mb-4 bg-gray-200 border border-gray-400 rounded py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-yellow-500"
-              >
-                {district.length === 0 ? (
-                  <option>Kota/Kabupaten</option>
-                ) : (
-                  district.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.nama}
-                    </option>
-                  ))
+                value={null}
+                className={cx(
+                  'flex-1 mr-4 mb-4 bg-gray-100 border border-gray-400 rounded py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                  errors.district ? 'border-red-500' : null,
                 )}
+              >
+                <option value="" disabled selected>
+                  Kota/Kabupaten
+                </option>
+                {district.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.nama}
+                  </option>
+                ))}
               </select>
-              {errors.district && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.district && 'Kota/Kabupaten tidak boleh kosong'}
-                </p>
-              )}
+
               <select
                 id="subDistrict"
                 type="select"
                 name="subDistrict"
                 ref={register({ required: true })}
-                className="block w-56  mr-4 mb-4 bg-gray-200 border border-gray-400 rounded py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-yellow-500"
-              >
-                {subDistrict.length === 0 ? (
-                  <option>Kecamatan</option>
-                ) : (
-                  subDistrict.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.nama}
-                    </option>
-                  ))
+                className={cx(
+                  'flex-1 mr-4 mb-4 bg-gray-100 border border-gray-400 rounded py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+                  errors.subDistrict ? 'border-red-500' : null,
                 )}
+              >
+                <option value="" disabled selected>
+                  Kecamatan
+                </option>
+                {subDistrict.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.nama}
+                  </option>
+                ))}
               </select>
-              {errors.subDistrict && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.subDistrict && 'Kecamatan tidak boleh kosong'}
-                </p>
-              )}
             </div>
           </div>
         </div>
+
         <div className="flex flex-col items-start sm:items-end">
           <button
-            className="w-full sm:max-w-sm mb-3 shadow bg-teal-600 hover:bg-teal-800 focus:shadow-outline focus:outline-none text-white font-semibold py-3 rounded-lg"
             type="submit"
+            disabled={buttonLoadings}
+            className={cx(
+              'w-full flex items-center justify-center  sm:max-w-sm mb-3 shadow bg-teal-600 hover:bg-teal-800 text-white font-semibold py-4 rounded-lg focus:shadow-outline focus:outline-none',
+              buttonLoadings ? ' opacity-50 cursor-not-allowed' : null,
+            )}
           >
-            Ajukan
+            {!buttonLoadings ? null : (
+              <i>
+                <svg className="spinner w-5" viewBox="0 0 50 50">
+                  <circle
+                    className="path"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    strokeWidth="5"
+                  />
+                </svg>
+              </i>
+            )}
+            <span className="ml-2 uppercase">Ajukan</span>
           </button>
+
           <button
+            type="button"
             onClick={() => history.goBack()}
             className="text-yellow-500 hover:text-yellow-700 text-sm font-semibold hover:font-bold"
           >

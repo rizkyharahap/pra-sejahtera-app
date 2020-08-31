@@ -2,7 +2,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Family from './pages/family/Family';
 import Login from './layouts/auth/Login';
 import Submission from './pages/submission/Submission';
-import Profile from './pages/profile/Profile';
+// import Profile from './pages/profile/Profile';
 import Register from './layouts/auth/Register';
 import SubmissionForm from './pages/submission/SubmissionForm';
 import Home from './pages/home/Home';
@@ -71,24 +71,24 @@ const adminRoutes = [
   {
     path: '/admin/submission',
     name: 'Submission',
-    exact: false,
+    exact: true,
     component: Submission,
     layout: 'admin',
   },
   {
-    path: '/admin/submission/form',
-    name: 'Submission Form',
+    path: '/admin/submission/:params',
+    name: 'Submission',
     exact: false,
-    component: SubmissionForm,
+    component: Submission,
     layout: 'admin',
   },
-  {
-    path: '/admin/profile',
-    name: 'Profile',
-    exact: false,
-    component: Profile,
-    layout: 'admin',
-  },
+  // {
+  //   path: '/admin/profile',
+  //   name: 'Profile',
+  //   exact: false,
+  //   component: Profile,
+  //   layout: 'admin',
+  // },
 ];
 
 export { clientRoutes, adminRoutes };

@@ -11,6 +11,7 @@ const Timeline = ({ step = 'self' }) => {
       if (item.name === step) {
         return setState(item.step);
       }
+      return null;
     });
   }, []);
 
@@ -34,20 +35,33 @@ const Timeline = ({ step = 'self' }) => {
             >
               <div
                 className={cx(
-                  'timeline-img p-3 text-white bg-teal-400 absolute rounded-full -ml-4',
+                  'timeline-img p-3 text-white absolute rounded-full -ml-4',
+                  step === 'self'
+                    ? 'bg-teal-400'
+                    : step === 'neighbour'
+                      ? 'bg-red-400'
+                      : 'bg-yellow-500',
                   item.number % 2 ? 'timeline-img-left' : 'timeline-img-right',
                 )}
               >
                 {item.number}
               </div>
-              <li className="w-5/12 py-3 px-4 md:py-3 md:px-6 relative rounded-lg text-white bg-teal-400 shadow-lg transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 ">
+              <li
+                className={cx(
+                  'w-5/12 py-3 px-4 md:py-3 md:px-6 relative rounded-lg text-white  shadow-lg transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110 ',
+                  step === 'self'
+                    ? 'bg-teal-400'
+                    : step === 'neighbour'
+                      ? 'bg-red-400'
+                      : 'bg-yellow-500',
+                )}
+              >
                 <span>{item.description}</span>
               </li>
             </div>
           ))}
         </ol>
       ) : null}
-
     </section>
   );
 };

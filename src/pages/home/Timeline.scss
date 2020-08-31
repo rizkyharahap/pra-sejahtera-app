@@ -1,6 +1,6 @@
 .timeline::before {
   content: '';
-  background-color: #f1eac9;
+  background-color: #f1e39c;
   width: 5px;
   height: 100%;
   position: absolute;
@@ -21,20 +21,22 @@
 
 .timeline-img-left::after {
   content: '';
+  z-index: -1;
   width: 150px;
   height: 5px;
   position: absolute;
-  background-color: rgba(79, 209, 197, var(--bg-opacity));
+  background-color: #f1e39c;
   right: 0;
   margin-right: 20px;
 }
 
 .timeline-img-right::before {
   content: '';
+  z-index: -1;
   width: 140px;
   height: 5px;
   position: absolute;
-  background-color: rgba(79, 209, 197, var(--bg-opacity));
+  background-color: #f1e39c;
   left: 0;
   margin-left: 20px;
 }

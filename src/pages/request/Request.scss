@@ -1,0 +1,26 @@
+.legend-pengajuan::before{
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  display: inline-block;
+  margin-right:4px;
+  background-color:#38B2AC;
+}
+
+.legend-pencopotan::before  {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  display: inline-block;
+  margin-right:4px;
+  background-color:#F56565;
+}
+
+.legend-donasi::before {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  display: inline-block;
+  margin-right:4px;
+  background-color:#ECC94B;
+}

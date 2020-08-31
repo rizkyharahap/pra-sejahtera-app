@@ -1,18 +1,20 @@
 {
   "name": "pra-sejahtera-app",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "chart.js": "^2.9.3",
     "chokidar-cli": "^2.1.0",
     "classname": "^0.0.0",
-    "firebase": "^7.18.0",
+    "firebase": "^7.19.0",
     "history": "^5.0.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.4.0",
     "react-redux": "^7.2.1",
@@ -25,7 +27,7 @@
     "yarn-run-all": "^3.1.1"
   },
   "scripts": {
-    "build:tailwind": "tailwind build src/assets/styles/tailwind.css -o src/assets/styles/index.css",
+    "build:tailwind": "tailwind build src/assets/styles/tailwind.scss -o src/assets/styles/index.css",
     "watch:tailwind": "chokidar 'src/**/*.css' 'src/**/*.scss' --ignore src/assets/styles/index.css -c 'npm run build:tailwind'",
     "start": "npm-run-all build:tailwind --parallel watch:tailwind start:react",
     "start:react": "react-scripts start",
@@ -60,6 +62,7 @@
   "devDependencies": {
     "autoprefixer": "^9.8.6",
     "eslint-config-airbnb": "^18.2.0",
+    "react-router-hash-link": "^2.0.0",
     "tailwindcss": "^1.6.2"
   }
 }

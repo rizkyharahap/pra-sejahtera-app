@@ -1,18 +1,15 @@
 import firebase, { database, storage } from '../firebase/firebase';
 
 export const actionLoading = (data) => (dispatch) => {
-  setTimeout(
-    () => dispatch({ type: 'CHANGE_LOADING', value: data }),
-    1000,
-  );
+  setTimeout(() => dispatch({ type: 'CHANGE_LOADING', value: data }), 1000);
 };
 
-export const actionHandleSideBar = () => (dispatch) => {
-  dispatch({ type: 'CHANGE_SIDEBAR' });
+export const actionHandleSideBar = (data) => (dispatch) => {
+  dispatch({ type: 'CHANGE_SIDEBAR', value: data });
 };
 
-export const actionHandleMenu = () => (dispatch) => {
-  dispatch({ type: 'CHANGE_MENU' });
+export const actionHandleMenu = (data) => (dispatch) => {
+  dispatch({ type: 'CHANGE_MENU', value: data });
 };
 
 export const loginUsersAPI = (data) => (dispatch) => new Promise((resolve, reject) => {
@@ -51,13 +48,16 @@ export const loginUsersAPI = (data) => (dispatch) => new Promise((resolve, rejec
 export const logoutUsersAPI = () => (dispatch) => new Promise((resolve, reject) => {
   dispatch({ type: 'CHANGE_LOADING', value: false });
 
-  firebase.auth().signOut()
+  firebase
+    .auth()
+    .signOut()
     .then(() => {
       localStorage.removeItem('userData');
       dispatch({ type: 'CHANGE_ISLOGIN', value: false });
 
       resolve(true);
-    }).catch((error) => {
+    })
+    .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
 
@@ -77,7 +77,7 @@ export const getDataFromAPI = (params) => (dispatch) => {
   const urlNotes = database.ref(params);
   return new Promise((resolve, _reject) => {
     urlNotes.on('value', (snapshot) => {
-      console.log(`get data from : ${params} `, snapshot.val());
+      // console.log(`get data from : ${params} `, snapshot.val());
 
       const data = [];
       Object.keys(snapshot.val()).map((key) => {
@@ -87,10 +87,18 @@ export const getDataFromAPI = (params) => (dispatch) => {
         });
       });
 
-      if (params === 'families') {
-        dispatch({ type: 'SET_FAMILIES', value: data });
-      } else if (params === 'submissions') {
-        dispatch({ type: 'SET_SUBMISSIONS', value: data });
+      switch (params) {
+        case 'families':
+          dispatch({ type: 'SET_FAMILIES', value: data });
+          break;
+        case 'submissions':
+          dispatch({ type: 'SET_SUBMISSIONS', value: data });
+          break;
+        case 'request_message':
+          dispatch({ type: 'SET_REQUEST_MESSAGE', value: data });
+          break;
+        default:
+          return null;
       }
 
       dispatch({ type: 'CHANGE_LOADING', value: false });
@@ -104,23 +112,23 @@ export const actionCheckImage = (data) => (dispatch) => new Promise((resolve, re
 
   if (fileType) {
     dispatch({ type: 'CHANGE_ISIMAGE', value: true });
-    console.log('File type : ', data.type);
+    // console.log('File type : ', data.type);
     return resolve(true);
   }
   dispatch({ type: 'CHANGE_ISIMAGE', value: false });
-  console.log('File harus ber-ektensi (.jpg/.jpeg/.png)');
+  // console.log('File harus ber-ektensi (.jpg/.jpeg/.png)');
   return reject(new Error('File tidak dikenal'));
 });
 
 export const uploadFileToAPI = (data) => new Promise((resolve, reject) => {
-  console.log('Start Upload....');
+  // console.log('Start Upload....');
 
-  const name = `${+new Date()}-${data.fotoRumah[0].name}`;
+  const name = `${data.nik}-${data.fotoRumah[0].name}`;
   const metadata = {
     contentType: data.fotoRumah[0].type,
   };
 
-  console.log('Upload Data : ', name);
+  // console.log('Upload Data : ', name);
   const fileRef = storage
     .ref('foto-rumah/')
     .child(name)
@@ -133,76 +141,77 @@ export const uploadFileToAPI = (data) => new Promise((resolve, reject) => {
       console.log(`Upload is ${progress}% done`);
     },
     (error) => {
-      console.log(error);
+      console.log('Uploade data error', error);
       reject(error);
     },
     () => {
       fileRef.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        console.log('File available at', downloadURL);
-        console.log('Upload Done');
+        // console.log('File available at', downloadURL);
+        // console.log('Upload Done');
         resolve(downloadURL);
       });
     },
   );
 });
 
-export const addDataToAPI = (params, data, url) => new Promise((resolve, reject) => {
-  database.ref(params).push({
-    noKK: data.noKK,
-    jenisPengajuan: data.jenisPengajuan,
-    pekerjaan: data.pekerjaan,
-    pendapatan: data.pendapatan,
-    pbb: data.pbb,
-    fotoRumah: url,
-    status: 'Proses',
-  });
-
-  if (data) {
-    console.log('Add Data Success', data);
-    resolve(data);
-  } else {
-    console.log('Add Data Failed !');
-    reject(new Error('Add Data Failed !'));
-  }
-});
-
-export const addNewData = (params, data) => (dispatch) => {
-  dispatch({ type: 'CHANGE_LOADING', value: true });
-
-  uploadFileToAPI(data)
-    .then((url) => addDataToAPI(params, data, url))
-    .catch((err) => console.log(err))
-    .then(() => dispatch({ type: 'CHANGE_LOADING', value: false }));
-};
-
-export const addRequestSubmission = (data) => (dispatch) => new Promise((resolve, reject) => {
-  const params = '/request_message';
-
+export const addDataFamily = (params, data) => (dispatch) => {
   dispatch({ type: 'CHANGE_BUTTON_LOADING', value: true });
 
-  console.log(params, data);
-
-  database.ref(params).push({
-    jenisPengajuan: data.jenisPengajuan,
-    noKK: data.noKK,
-    nama: data.nama,
-    noTelepon: data.noTelepon,
-    alamat: {
+  database
+    .ref(params)
+    .push({
+      noKK: data.noKK,
+      nik: data.nik,
+      kepalaKeluarga: data.kepalaKeluarga,
       alamatLengkap: data.alamatLengkap,
-      provinsi: data.province,
-      district: data.district,
-      subDistrict: data.subDistrict,
-    },
-    status: 'Proses',
-  }).then(() => {
-    console.log('Add Data Success', data);
-
-    resolve(data);
-  })
-    .catch(() => {
-      console.log('Add Data Failed !');
-
-      reject(new Error('Add Data Failed !'));
+      status: data.status,
     })
+    .catch((err) => alert(err))
     .finally(() => dispatch({ type: 'CHANGE_BUTTON_LOADING', value: false }));
-});
+};
+
+export const addNewData = (params, data) => (dispatch) => {
+  dispatch({ type: 'CHANGE_BUTTON_LOADING', value: true });
+
+  uploadFileToAPI(data)
+    .then((url) => {
+      database
+        .ref(params)
+        .push({
+          noKK: data.noKK,
+          jenisPengajuan: data.jenisPengajuan,
+          pekerjaan: data.pekerjaan,
+          pendapatan: data.pendapatan,
+          pbb: data.pbb,
+          fotoRumah: url,
+          tanggal: new Date().getTime(),
+          status: 'Proses',
+        })
+        .catch((err) => alert(err));
+    })
+    .catch((err) => alert(err))
+    .finally(() => dispatch({ type: 'CHANGE_BUTTON_LOADING', value: false }));
+};
+
+export const addRequestSubmission = (params, data) => (dispatch) => {
+  dispatch({ type: 'CHANGE_BUTTON_LOADING', value: true });
+
+  database
+    .ref(params)
+    .push({
+      jenisPengajuan: data.jenisPengajuan,
+      noKK: data.noKK,
+      nama: data.nama,
+      noTelepon: data.noTelepon,
+      alamat: {
+        alamatLengkap: data.alamatLengkap,
+        provinsi: data.province,
+        district: data.district,
+        subDistrict: data.subDistrict,
+      },
+      tanggal: new Date().getTime(),
+      status: 'Proses',
+    })
+    .catch((err) => alert(err))
+    .finally(() => dispatch({ type: 'CHANGE_BUTTON_LOADING', value: false }));
+};
