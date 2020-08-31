@@ -11,6 +11,8 @@
     "chokidar-cli": "^2.1.0",
     "classname": "^0.0.0",
     "firebase": "^7.19.0",
+    "firebase-tools": "^8.9.2",
+    "global": "^4.4.0",
     "history": "^5.0.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

@@ -12,6 +12,35 @@ export const actionHandleMenu = (data) => (dispatch) => {
   dispatch({ type: 'CHANGE_MENU', value: data });
 };
 
+export const registerUserAPI = (data) => (dispatch) => new Promise((resolve, reject) => {
+  dispatch({ type: 'CHANGE_LOADING', value: true });
+
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(data.email, data.password)
+    .then((res) => {
+      alert(`${res.user.email} Berhasil Mendaftar !`);
+
+      dispatch({
+        type: 'CHANGE_LOADING',
+        value: false,
+      });
+      resolve(true);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      console.log(errorCode);
+      console.log(errorMessage);
+
+      dispatch({ type: 'CHANGE_LOADING', value: false });
+
+      reject(new Error(errorMessage));
+    });
+});
+
 export const loginUsersAPI = (data) => (dispatch) => new Promise((resolve, reject) => {
   dispatch({ type: 'CHANGE_LOADING', value: true });
 
@@ -39,7 +68,6 @@ export const loginUsersAPI = (data) => (dispatch) => new Promise((resolve, rejec
       console.log(errorMessage);
 
       dispatch({ type: 'CHANGE_LOADING', value: false });
-      dispatch({ type: 'CHANGE_ISLOGIN', value: false });
 
       reject(new Error(errorMessage));
     });
@@ -203,12 +231,7 @@ export const addRequestSubmission = (params, data) => (dispatch) => {
       noKK: data.noKK,
       nama: data.nama,
       noTelepon: data.noTelepon,
-      alamat: {
-        alamatLengkap: data.alamatLengkap,
-        provinsi: data.province,
-        district: data.district,
-        subDistrict: data.subDistrict,
-      },
+      alamatLengkap: data.alamatLengkap,
       tanggal: new Date().getTime(),
       status: 'Proses',
     })

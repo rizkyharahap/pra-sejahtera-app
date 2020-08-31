@@ -5,14 +5,14 @@ import 'firebase/storage';
 import 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCPEoc7izD_ReKaLzM43PGkHLTd4F-F7-I',
-  authDomain: 'keluarga-miskin-app.firebaseapp.com',
-  databaseURL: 'https://keluarga-miskin-app.firebaseio.com',
-  projectId: 'keluarga-miskin-app',
-  storageBucket: 'keluarga-miskin-app.appspot.com',
-  messagingSenderId: '1043969761133',
-  appId: '1:1043969761133:web:af4f69efb3870b961f8464',
-  measurementId: 'G-1W2LTZ8CFC',
+  apiKey: 'AIzaSyCIwWk9cBfdtczQ1Nza1-AJJm5HnDfcI9A',
+  authDomain: 'pra-sejahtera.firebaseapp.com',
+  databaseURL: 'https://pra-sejahtera.firebaseio.com',
+  projectId: 'pra-sejahtera',
+  storageBucket: 'pra-sejahtera.appspot.com',
+  messagingSenderId: '638546919234',
+  appId: '1:638546919234:web:0d2ef45e169d068ce792db',
+  measurementId: 'G-5SF6CEST3Z',
 };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

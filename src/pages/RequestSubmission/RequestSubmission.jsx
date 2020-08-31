@@ -21,55 +21,55 @@ function RequestSubmission() {
   );
   const { register, handleSubmit, errors } = useForm();
 
-  const onSetSubDistrict = (e) => {
-    const districtId = e.target.value;
-    const urlSubDistrict = fetch(
-      `https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${districtId}`,
-    );
+  // const onSetSubDistrict = (e) => {
+  //   const districtId = e.target.value;
+  //   const urlSubDistrict = fetch(
+  //     `https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${districtId}`,
+  //   );
 
-    urlSubDistrict
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-      })
-      .then((resJson) => {
-        setSubDistrict(resJson.kecamatan);
-      });
-  };
+  //   urlSubDistrict
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((resJson) => {
+  //       setSubDistrict(resJson.kecamatan);
+  //     });
+  // };
 
-  const onSetDistrict = (e) => {
-    const provinceId = e.target.value;
-    const urlDistrict = fetch(
-      `https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`,
-    );
+  // const onSetDistrict = (e) => {
+  //   const provinceId = e.target.value;
+  //   const urlDistrict = fetch(
+  //     `https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`,
+  //   );
 
-    urlDistrict
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-      })
-      .then((resJson) => {
-        setDistrict(resJson.kota_kabupaten);
-      });
-  };
+  //   urlDistrict
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((resJson) => {
+  //       setDistrict(resJson.kota_kabupaten);
+  //     });
+  // };
 
-  const getLocation = () => {
-    const urlProvince = fetch(
-      'https://dev.farizdotid.com/api/daerahindonesia/provinsi',
-    );
+  // const getLocation = () => {
+  //   const urlProvince = fetch(
+  //     'https://dev.farizdotid.com/api/daerahindonesia/provinsi',
+  //   );
 
-    urlProvince
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-      })
-      .then((resJson) => {
-        setProvince(resJson.provinsi);
-      });
-  };
+  //   urlProvince
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((resJson) => {
+  //       setProvince(resJson.provinsi);
+  //     });
+  // };
 
   useEffect(() => {
     window.scroll({
@@ -78,7 +78,7 @@ function RequestSubmission() {
       behavior: 'smooth',
     });
     try {
-      getLocation();
+      // getLocation();
     } catch (error) {
       alert(error);
     }
@@ -200,7 +200,7 @@ function RequestSubmission() {
             />
           </div>
 
-          <div className="mb-8">
+          <div className="mb-4">
             <label
               htmlFor="alamatLengkap"
               className="block text-gray-600 mb-1 text-sm"
@@ -222,11 +222,11 @@ function RequestSubmission() {
               ref={register({ required: true })}
               className={cx(
                 'mb-3 bg-gray-100 border border-gray-400 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
-                errors.noTelepon ? 'border-red-500' : null,
+                errors.alamatLengkap ? 'border-red-500' : null,
               )}
             />
 
-            <div className="flex flex-wrap">
+            {/* <div className="flex flex-wrap">
               <select
                 id="province"
                 type="select"
@@ -243,7 +243,7 @@ function RequestSubmission() {
                   Provinsi
                 </option>
                 {province.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.name}>
                     {item.nama}
                   </option>
                 ))}
@@ -265,7 +265,7 @@ function RequestSubmission() {
                   Kota/Kabupaten
                 </option>
                 {district.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.nama}>
                     {item.nama}
                   </option>
                 ))}
@@ -285,12 +285,12 @@ function RequestSubmission() {
                   Kecamatan
                 </option>
                 {subDistrict.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.nama}>
                     {item.nama}
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
 

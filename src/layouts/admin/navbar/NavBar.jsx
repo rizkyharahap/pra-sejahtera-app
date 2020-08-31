@@ -61,7 +61,6 @@ const NavBar = () => {
             </button>
             <Link
               to="/home"
-              target="blank"
               className="flex items-center p-3 font-medium m-2 text-center bg-gray-300 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
             >
               <i className="material-icons">home</i>

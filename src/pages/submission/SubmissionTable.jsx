@@ -149,7 +149,7 @@ const SubmissionTable = () => {
                       {' '}
                       <span
                         className={cx(
-                          'px-2 py-1 rounded-full text-white text-xs',
+                          'px-2 py-1 rounded-full text-white text-xs font-semibold',
                           data.data.jenisPengajuan === 'Pengajuan'
                             ? 'bg-teal-500'
                             : 'bg-red-500 ',

@@ -1,129 +1,140 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classname';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewData } from '../../configs/redux/action';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+import { registerUserAPI } from '../../configs/redux/action';
+import { ReactComponent as LoadingIcons } from '../../assets/icons/Ball-Animated.svg';
+import { ReactComponent as Logo } from '../../assets/PraTelaLogo.svg';
 
 const Register = () => {
   const dispatch = useDispatch();
 
-  const onSubmissionSubmit = async (data) => {
-    dispatch(addNewData('submissions', data));
-  };
-
   const loadings = useSelector((loading) => loading.isLoading);
   const { register, handleSubmit, errors } = useForm();
+  const history = useHistory();
+  const userData = JSON.parse(localStorage.getItem('userData'));
+
+  const onRegisterSubmit = async (data) => {
+    // console.log(data);
+    const res = await dispatch(registerUserAPI(data)).catch((err) => alert(err));
+
+    if (res) {
+      // console.log('res', res);
+      // console.log('Register Succes');
+      history.replace('/login');
+    }
+  };
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+
+    if (userData !== null) {
+      return history.replace('/admin');
+    }
+  }, [userData]);
 
   return (
-    <div className="h-full flex items-center justify-center ">
-      <div className="w-full sm:w-3/4 md:w-1/2 lg:w-2/5 bg-white rounded-lg overflow-hidden shadow-lg py-4 relative">
+    <div className="w-full flex items-center justify-center h-screen bg-gray-200 px-3 pt-16 pb-6 ">
+      <form
+        className="w-full max-w-md bg-white rounded-lg overflow-hidden shadow-lg py-6 px-10 relative"
+        onSubmit={handleSubmit(onRegisterSubmit)}
+      >
         <div
           className={cx(
-            'w-full h-full absolute z-50 flex items-center justify-center bg-blue-900',
+            'w-full h-full absolute z-50 flex items-center justify-center bg-white bg-opacity-75 top-0 right-0',
             !loadings ? 'hidden' : 'block',
           )}
         >
-          ...loading
-        </div>
-        <div className="flex items-center justify-between font-bold text-xl mb-3 border-b border-gray-300 leading-relaxed px-4">
-          <span>Pengajuan Baru</span>
+          <div>
+            <LoadingIcons className="w-20 h-20" />
+            <span className="font-semibold text-gray-700">Loading...</span>
+          </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmissionSubmit)}
-          className="px-6 md:px-8 pt-6 mb-4"
+        <div className="flex flex-col items-center justify-center">
+          <Logo className="w-32" />
+
+          <span className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 tracking-tighter">
+            Register to
+            <span className="text-teal-700"> Pra-</span>
+            <span className="text-teal-500">Tera</span>
+          </span>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
+            {errors.email ? (
+              <span className="italic text-red-500">
+                E-mail tidak boleh kosong
+              </span>
+            ) : (
+              <span>E-mail </span>
+            )}
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="text"
+            defaultValue=""
+            placeholder="happywithhap@gmail.com"
+            ref={register({ required: true })}
+            className={cx(
+              'bg-gray-200 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.email ? 'border-red-500' : null,
+            )}
+          />
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
+            {errors.email ? (
+              <span className="italic text-red-500">
+                Password tidak boleh kosong
+              </span>
+            ) : (
+              <span>Password </span>
+            )}
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="**************"
+            defaultValue=""
+            ref={register({ required: true })}
+            className={cx(
+              'bg-gray-200 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.password ? 'border-red-500' : null,
+            )}
+          />
+        </div>
+
+        <button
+          className="w-full shadow bg-teal-500 hover:bg-teal-700 focus:shadow-outline focus:outline-none text-white text-lg font-semibold py-3 rounded-lg mb-2"
+          type="submit"
         >
-          <div className="mb-4">
-            <label htmlFor="noKK" className="block text-gray-500 mb-1">
-              E-mail
-            </label>
-            <input
-              id="noKK"
-              type="text"
-              placeholder="exc.happywithhap@gmail.com"
-              name="noKK"
-              defaultValue=""
-              ref={register({ required: true, pattern: /^\S+@\S+$/i })}
-              className="bg-gray-200 border-2 border-gray-300 rounded w-full py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-            />
-            {errors.noKK && (
-              <p className="text-red-500 text-xs italic">
-                {errors.noKK.type === 'required'
-                  ? 'Required'
-                  : 'Maksimal 20 Karakter'}
-              </p>
-            )}
-          </div>
+          Register
+        </button>
 
-          <div className="mb-4">
-            <label htmlFor="pekerjaan" className="block text-gray-500 mb-1">
-              * Pekerjaan
-            </label>
-            <input
-              id="pekerjaan"
-              type="text"
-              placeholder="exc.( Petani, Guru, Karyawan )"
-              name="pekerjaan"
-              defaultValue=""
-              ref={register({ required: true })}
-              className="bg-gray-200 border-2 border-gray-300 rounded w-full py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-            />
-            {errors.pekerjaan && (
-              <p className="text-red-500 text-xs italic">
-                {errors.pekerjaan && 'Required'}
-              </p>
-            )}
-          </div>
+        <div className="text-xs text-gray-700 mb-2 text-center font-semibold">
+          Sudah punya akun?
+        </div>
 
-          <div className="mb-4">
-            <label htmlFor="pendapatan" className="block text-gray-500 mb-1">
-              * Pendapatan Pertahun
-            </label>
-            <input
-              id="pendapatan"
-              type="number"
-              placeholder="exc.( 4.000.000 )"
-              name="pendapatan"
-              defaultValue=""
-              ref={register({ required: true })}
-              className="bg-gray-200 border-2 border-gray-300 rounded w-full py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-            />
-            {errors.pendapatan && (
-              <p className="text-red-500 text-xs italic">
-                {errors.pendapatan && 'Required'}
-              </p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="pbb" className="block text-gray-500 mb-1">
-              * Pajak Bumi dan Bangunan
-            </label>
-            <input
-              id="pbb"
-              type="number"
-              placeholder="exc.( 4.000.000 )"
-              name="pbb"
-              defaultValue=""
-              ref={register({ required: true })}
-              className="bg-gray-200 border-2 border-gray-300 rounded w-full py-2 px-4 text-lg text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-            />
-            {errors.pbb && (
-              <p className="text-red-500 text-xs italic">
-                {errors.pbb && 'Required'}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            className="flex items-center bg-blue-500 hover:bg-blue-700 text-xl md:text-lg text-white font-semibold py-2 px-4 rounded-full focus:outline-none"
-          >
-            <i className="material-icons">save</i>
-            <span className="ml-2 uppercase">Simpan</span>
-          </button>
-        </form>
-      </div>
+        <Link
+          to="/login"
+          className="w-full block text-center shadow border border-yellow-500 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-yellow-500 hover:text-white text-lg font-semibold py-3 rounded-lg mb-2"
+        >
+          Login
+        </Link>
+      </form>
     </div>
   );
 };

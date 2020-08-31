@@ -30,8 +30,8 @@ const SideBar = () => {
   return (
     <aside
       className={cx(
-        'fixed md:block transform top-0 left-0 md:w-64 bg-white min-h-screen text-gray-700 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0 shadow-lg',
-        isSideBarOpen ? 'w-64' : 'w-0',
+        'fixed md:block md:w-60 transform top-0 left-0 bg-white min-h-screen text-gray-700 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0 shadow-lg',
+        isSideBarOpen ? 'w-60' : 'w-0',
       )}
     >
       <div className="flex justify-between mb-8 w-auto px-4 py-3 md:px-8 border-b border-gray-300">
@@ -66,14 +66,12 @@ const SideBar = () => {
         <span className="group-hover:text-red-700 font-semibold">Logout</span>
       </button>
 
-      <footer
-        className="absolute flex items-center bottom-0 py-4 bg-gray-200 border-t border-gray-400"
-      >
+      <footer className="absolute flex items-center bottom-0 px-5 py-4 bg-gray-200 border-t border-gray-400">
         <span
-          className="w-64 text-center text-gray-600 text-xs"
+          className=" text-center text-gray-600 text-xs"
           style={{ textShadow: '0px 0px 50px rgba(0,0,0,0.9)' }}
         >
-          @2020, Made with Break Heart &#x1F494; in Jawa Tengah by Rizky Harahap
+          @2020, Made with Break Heart &#x1F494;, in Jawa Tengah by Rizky Harahap
         </span>
       </footer>
     </aside>

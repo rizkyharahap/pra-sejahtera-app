@@ -22,7 +22,9 @@ const Hero = () => (
 
       <article className="mt-4 sm:mt-6">
         <p className="text-center sm:text-left text-gray-600 text-lg">
-          Website agar masyarakat membantu keluarga Pra-Sejahtera untuk mendapatkan haknya dengan tepat sasaran dengan cara Mengajukan, Melaporkan, dan Donasi.
+          Website agar masyarakat membantu keluarga Pra-Sejahtera untuk
+          mendapatkan haknya dengan tepat sasaran dengan cara Mengajukan,
+          Melaporkan, dan Donasi.
         </p>
       </article>
 

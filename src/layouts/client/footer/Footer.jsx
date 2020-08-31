@@ -12,7 +12,11 @@ const Footer = () => (
       <div className="flex-2 w-full max-w-sm">
         <header className="flex flex-row items-center">
           <figure className="w-20 h-20 rounded-full bg-white overflow-hidden">
-            <img src={profile} alt="Rizki Harahap" className="h-20" />
+            <img
+              src={profile}
+              alt="Rizki Harahap"
+              className="h-20"
+            />
           </figure>
           <h4 className="text-xl font-semibold text-white ml-4">
             Rizki Harahap

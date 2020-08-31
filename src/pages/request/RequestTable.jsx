@@ -60,13 +60,13 @@ const Request = () => {
               </th>
               <th
                 className="py-3 px-2 font-semibold"
-                style={{ minWidth: '6rem' }}
+                style={{ minWidth: '10rem' }}
               >
                 No. KK
               </th>
               <th
                 className="py-3 px-2 font-semibold"
-                style={{ minWidth: '6rem' }}
+                style={{ minWidth: '10rem' }}
               >
                 No. Telepon
               </th>
@@ -75,24 +75,6 @@ const Request = () => {
                 style={{ minWidth: '16rem' }}
               >
                 Alamat Lengkap
-              </th>
-              <th
-                className="py-3 px-2 font-semibold"
-                style={{ minWidth: '6rem' }}
-              >
-                Provinsi
-              </th>
-              <th
-                className="py-3 px-2 font-semibold"
-                style={{ minWidth: '6rem' }}
-              >
-                Kabupaten/Kota
-              </th>
-              <th
-                className="py-3 px-2 font-semibold"
-                style={{ minWidth: '6rem' }}
-              >
-                Kelurahan
               </th>
             </tr>
           </thead>
@@ -144,12 +126,7 @@ const Request = () => {
                   <td className="p-2">{requestMessage.data.noKK}</td>
                   <td className="p-2">{requestMessage.data.noTelepon}</td>
                   <td className="p-2 text-left">
-                    {requestMessage.data.alamat.alamatLengkap}
-                  </td>
-                  <td className="p-2">{requestMessage.data.alamat.provinsi}</td>
-                  <td className="p-2">{requestMessage.data.alamat.district}</td>
-                  <td className="p-2">
-                    {requestMessage.data.alamat.subDistrict}
+                    {requestMessage.data.alamatLengkap}
                   </td>
                 </tr>
               ))}

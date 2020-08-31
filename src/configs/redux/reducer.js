@@ -8,7 +8,6 @@ const initialState = {
   requestMessage: [],
   isImage: false,
   fileUrl: '',
-  progress: 0,
 };
 
 const reducer = (state = initialState, action) => {

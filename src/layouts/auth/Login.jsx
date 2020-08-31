@@ -3,8 +3,10 @@ import cx from 'classname';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { loginUsersAPI } from '../../configs/redux/action';
-import { ReactComponent as Logo } from '../../assets/icons/Ball-Animated.svg';
+import { ReactComponent as LoadingIcons } from '../../assets/icons/Ball-Animated.svg';
+import { ReactComponent as Logo } from '../../assets/PraTelaLogo.svg';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -15,26 +17,31 @@ const Login = () => {
   const userData = JSON.parse(localStorage.getItem('userData'));
 
   const onLoginSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const res = await dispatch(loginUsersAPI(data)).catch((err) => alert(err));
 
     if (res) {
-      console.log('res', res);
-      console.log('Login Succes');
+      // console.log('res', res);
+      // console.log('Login Succes');
       history.replace('/admin');
     }
   };
 
   useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+
     if (userData !== null) {
       return history.replace('/admin');
     }
   }, [userData]);
-
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-200 px-3">
+    <div className="w-full flex items-center justify-center h-screen bg-gray-200 px-3 pt-16 pb-6 ">
       <form
-        className="w-full max-w-md bg-white rounded-lg overflow-hidden shadow-lg mb-4 py-8 px-10 relative"
+        className="w-full max-w-md bg-white rounded-lg overflow-hidden shadow-lg py-6 px-10 relative"
         onSubmit={handleSubmit(onLoginSubmit)}
       >
         <div
@@ -44,22 +51,22 @@ const Login = () => {
           )}
         >
           <div>
-            <Logo className="w-20 h-20" />
+            <LoadingIcons className="w-20 h-20" />
             <span className="font-semibold text-gray-700">Loading...</span>
           </div>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <span className="text-2xl font-semibold text-gray-800 mb-4">
-            Login Admin
-          </span>
+          <Logo className="w-32" />
 
-          <i className="material-icons text-7xl text-teal-500 mb-4">
-            person_pin
-          </i>
+          <span className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 tracking-tighter">
+            Login to
+            <span className="text-teal-700"> Pra-</span>
+            <span className="text-teal-500">Tera</span>
+          </span>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-3">
           <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
             {errors.email ? (
               <span className="italic text-red-500">
@@ -78,25 +85,20 @@ const Login = () => {
             placeholder="happywithhap@gmail.com"
             ref={register({ required: true })}
             className={cx(
-              'bg-gray-300 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
-              errors.pendapatan ? 'border-red-500' : null,
+              'bg-gray-200 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.email ? 'border-red-500' : null,
             )}
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs italic">
-              {errors.email && 'E-mail Required'}
-            </p>
-          )}
         </div>
 
         <div className="mb-6">
           <label htmlFor="email" className="block text-gray-600 mb-1 text-sm">
             {errors.email ? (
               <span className="italic text-red-500">
-                E-mail tidak boleh kosong
+                Password tidak boleh kosong
               </span>
             ) : (
-              <span>E-mail </span>
+              <span>Password </span>
             )}
           </label>
 
@@ -108,34 +110,29 @@ const Login = () => {
             defaultValue=""
             ref={register({ required: true })}
             className={cx(
-              'bg-gray-300 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
-              errors.pendapatan ? 'border-red-500' : null,
+              'bg-gray-200 border border-gray-300 rounded w-full py-2 px-4 text-gray-800 focus:outline-none focus:bg-white focus:border-yellow-500 focus:shadow-lg',
+              errors.password ? 'border-red-500' : null,
             )}
           />
-          {errors.password && (
-            <p className="text-red-500 text-xs italic">
-              {errors.password && 'Password Required'}
-            </p>
-          )}
         </div>
-        <div className="md:flex md:items-center">
-          <button
-            className="w-full shadow bg-teal-600 hover:bg-teal-800 focus:shadow-outline focus:outline-none text-white font-semibold py-3 rounded-lg mb-2"
-            type="submit"
-          >
-            Sign In
-          </button>
-        </div>
-        <span className="text-xs text-gray-700">
+
+        <button
+          className="w-full shadow bg-teal-500 hover:bg-teal-700 focus:shadow-outline focus:outline-none text-white text-lg font-semibold py-3 rounded-lg mb-2"
+          type="submit"
+        >
+          Login
+        </button>
+
+        <div className="text-xs text-gray-700 mb-2 text-center font-semibold">
           Belum punya akun?
-          {' '}
-          <a
-            href="https://api.whatsapp.com/send?phone=+6282133882546&text=Hallo ! Saya ingin mencoba aplikasi anda."
-            className="text-red-500 hover:text-red-700 hover:font-semibold"
-          >
-            register di sini
-          </a>
-        </span>
+        </div>
+
+        <Link
+          to="/register"
+          className="w-full block text-center shadow border border-yellow-500 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-yellow-500 hover:text-white text-lg font-semibold py-3 rounded-lg mb-2"
+        >
+          Register
+        </Link>
       </form>
     </div>
   );

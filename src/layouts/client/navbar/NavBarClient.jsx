@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classname';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { ReactComponent as Logo } from '../../../assets/PraTelaLogo.svg';
 
 const NavBarClient = () => {
   const dispatch = useDispatch();
+  const [state, setState] = useState(false);
   const isMenuOpen = useSelector((states) => states.isMenuOpen);
 
   const handleMenu = () => {
@@ -23,16 +24,26 @@ const NavBarClient = () => {
     dispatch(actionHandleMenu(false));
   };
 
+  const handleScroll = () => {
+    if (window.pageYOffset > 0) {
+      setState(true);
+    } else if (window.pageYOffset === 0) {
+      setState(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <header
       className={cx(
-        'w-full flex items-center h-auto text-gray-700 justify-between flex-wrap py-2 px-6 sm:px-16 md:px-24 lg:px-32 xl:px-40 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
-        isMenuOpen
-          ? 'fixed bg-white text-gray-200 shadow-lg'
-          : 'absolute bg-transparent',
+        'fixed w-full flex items-center h-auto text-gray-700 justify-between flex-wrap py-2 px-6 sm:px-16 md:px-24 lg:px-32 xl:px-40 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
+        isMenuOpen ? 'bg-gray-100 text-gray-200 shadow-lg' : null,
+        !state ? 'bg-transparent' : 'bg-gray-100 shadow-md',
       )}
     >
-
       <div className="flex items-center justify-center flex-shrink-0">
         <Link
           to="/home"
@@ -44,6 +55,7 @@ const NavBarClient = () => {
 
       <button
         className="md:hidden mx-2 focus:outline-none"
+        style={{ height: 36 }}
         aria-label="Open Menu"
         type="button"
         onClick={handleMenu}

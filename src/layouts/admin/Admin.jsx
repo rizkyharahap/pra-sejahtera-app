@@ -31,7 +31,7 @@ const Admin = () => {
       <SideBar />
       <NavBar />
       <main
-        className="w-full md:ml-64 text-gray-700 px-4 sm:px-5 md:px-6 lg:px-8 py-32 bg-gray-200"
+        className="w-full text-gray-700 px-4 sm:px-5 md:pl-64 md:pr-6 py-32 bg-gray-200"
         style={{ minHeight: '94vh' }}
       >
         {getRoutes}
