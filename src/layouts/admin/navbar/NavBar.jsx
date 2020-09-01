@@ -23,34 +23,34 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed w-full flex item-center justify-between px-4 sm:px-5 md:px-6 lg:px-8 py-6 h-16 bg-gray-100 text-gray-700 border-b border-gray-300 z-10 shadow-lg">
+    <nav className="fixed w-full flex item-center justify-between px-4 sm:px-5 md:px-6 lg:px-8 py-2 bg-gray-100 text-gray-700 border-b border-gray-300 z-10 shadow-lg">
       <div className="w-full flex items-center">
         <button
-          className="mx-2 md:hidden focus:outline-none"
+          className="mx-2 h-6 md:hidden focus:outline-none"
           aria-label="Open Menu"
           type="button"
           onClick={handleSideBar}
         >
-          <i className="material-icons text-4xl">menu_open</i>
+          <i className="material-icons text-2xl">menu_open</i>
         </button>
         <div className="w-full flex items-center md:block justify-center">
-          <Logo className="h-12 w-auto md:hidden" />
+          <Logo className="h-10 w-auto md:hidden" />
         </div>
         <div className="flex md:justify-between md:bg-transparent">
           <button
-            className="mx-2 block md:hidden focus:outline-none"
+            className="mx-2 h-6 block md:hidden focus:outline-none"
             aria-label="Open Menu"
             type="button"
             onClick={handleMenu}
           >
-            <i className="material-icons text-4xl">more_vert</i>
+            <i className="material-icons text-2xl">more_vert</i>
           </button>
           <div
             className={cx(
               'absolute md:static md:border-none rounded-lg md:flex md:justify-between bg-white md:bg-transparent overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
               isMenuOpen ? 'block shadow-xl h-32' : 'h-0 md:h-auto',
             )}
-            style={{ right: '1rem', top: '65px' }}
+            style={{ right: '1rem', top: '57px' }}
           >
             <button
               type="button"

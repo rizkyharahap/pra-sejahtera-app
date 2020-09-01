@@ -39,7 +39,7 @@ const NavBarClient = () => {
   return (
     <header
       className={cx(
-        'fixed w-full flex items-center h-auto text-gray-700 justify-between flex-wrap py-2 px-6 sm:px-16 md:px-24 lg:px-32 xl:px-40 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
+        'fixed w-full flex items-center h-auto text-gray-700 justify-between flex-wrap py-2 px-4 sm:px-16 md:px-24 lg:px-32 xl:px-40 overflow-hidden ease-out transition-all duration-300 z-30 translate-x-0',
         isMenuOpen ? 'bg-gray-100 text-gray-200 shadow-lg' : null,
         !state ? 'bg-transparent' : 'bg-gray-100 shadow-md',
       )}
@@ -49,21 +49,21 @@ const NavBarClient = () => {
           to="/home"
           className="flex items-center transform hover:-translate-y-1 transition duration-500 ease-in-out hover:scale-110"
         >
-          <Logo className="h-12 md:h-16 w-auto" />
+          <Logo className="h-10 md:h-16 w-auto" />
         </Link>
       </div>
 
       <button
-        className="md:hidden mx-2 focus:outline-none"
+        className="h-6 md:hidden mx-2 focus:outline-none"
         style={{ height: 36 }}
         aria-label="Open Menu"
         type="button"
         onClick={handleMenu}
       >
         {!isMenuOpen ? (
-          <i className="material-icons text-4xl">menu_open</i>
+          <i className="material-icons text-2xl">menu_open</i>
         ) : (
-          <i className="material-icons text-4xl">close</i>
+          <i className="material-icons text-2xl">close</i>
         )}
       </button>
 

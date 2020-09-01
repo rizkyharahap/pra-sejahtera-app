@@ -2,7 +2,7 @@ importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js',
 );
 
-importScripts('./precache-manifest.d3c31f1e9cf40babfd4c54490e1b807c.js');
+importScripts('/precache-manifest.2e68b54efcb194c5a34b8a68db09ad77.js');
 
 if (workbox) {
   console.log('Yay! Workbox is loaded 🎉');
